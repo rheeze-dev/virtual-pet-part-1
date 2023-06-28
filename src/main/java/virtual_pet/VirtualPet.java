@@ -3,9 +3,9 @@ package virtual_pet;
 public class VirtualPet {
     private int hunger = 50;
     private int thirst = 50;
-    private int tiredness = 50;
-    private int boredom = 50;
-    private int sickness = 50;
+    private int tiredness = 30;
+    private int boredom = 0;
+    private int sickness = 10;
 
     public int getHunger() {
         return this.hunger;
@@ -48,57 +48,42 @@ public class VirtualPet {
     }
 
     public void tick() {
-        hunger += 2;
-        thirst += 2;
-        tiredness += 2;
-        boredom += 2;
-        sickness += 2;
-
-        int max = 0;
-        int index = 0;
-        int[] arr = { hunger, thirst, tiredness, boredom, sickness };
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i] > max) {
-                max = arr[i];
-                index = i;
-            }
-        }
-        // System.out.println(index);
+        hunger += 1;
+        thirst += 1;
+        tiredness += 1;
+        boredom += 1;
+        sickness += 1;
+        performPriorityNeed();
     }
 
-    public void feed() {
-        System.out.println("You fed Mali.");
-        hunger -= 10;
-        thirst += 10;
+    public void feed(int value) {
+        hunger -= value;
+        thirst += value;
     }
 
-    public void hydrate() {
-        System.out.println("You gave water to Mali.");
-        thirst -= 10;
+    public void hydrate(int value) {
+        thirst -= value;
     }
 
-    public void rest() {
-        System.out.println("You put Mali to sleep.");
-        tiredness -= 10;
-        boredom += 10;
+    public void rest(int value) {
+        tiredness -= value;
+        boredom += value;
     }
 
-    public void play() {
-        System.out.println("You played with Mali.");
-        boredom -= 10;
-        tiredness += 10;
-        hunger += 10;
-        thirst += 10;
-        sickness += 10;
+    public void play(int value) {
+        boredom -= value;
+        tiredness += value;
+        hunger += value;
+        thirst += value;
+        sickness += value;
     }
 
-    public void heal() {
-        System.out.println("You made Mali feel better.");
-        tiredness -= 10;
-        hunger -= 10;
-        thirst -= 10;
-        boredom -= 10;
-        sickness -= 10;
+    public void heal(int value) {
+        tiredness -= value;
+        hunger -= value;
+        thirst -= value;
+        boredom -= value;
+        sickness -= value;
     }
 
     public void displayStats() {
@@ -109,4 +94,32 @@ public class VirtualPet {
         System.out.println("Sickness: " + sickness + "%");
     }
 
+    public void performPriorityNeed() {
+        int[] arr = { hunger, thirst, tiredness, boredom, sickness };
+        int max = 0;
+        int index = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] > max) {
+                max = arr[i];
+                index = i;
+            }
+        }
+        System.out.println(index);
+        if (index == 0) {
+            System.out.println("Mali ate.");
+            feed(3);
+        } else if (index == 1) {
+            System.out.println("Mali drank water.");
+            hydrate(3);
+        } else if (index == 2) {
+            System.out.println("Mali took a nap.");
+            rest(3);
+        } else if (index == 3) {
+            System.out.println("Mali played.");
+            play(3);
+        } else {
+            System.out.println("Mali self medicated.");
+            heal(3);
+        }
+    }
 }
