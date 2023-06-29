@@ -26,7 +26,27 @@ public class VirtualPetApplication {
             System.out.println();
 
             if (toDo == 1) {
-                virtualPet.feed(10);
+                System.out.println("Choose food you want to feed Mali");
+                System.out.println("1. Bananas");
+                System.out.println("2. Insects");
+                System.out.println("3. Snails");
+                System.out.println("4. Flowers");
+                System.out.println();
+                System.out.print("> ");
+                int food = scanner.nextInt();
+                if (food == 1) {
+                    System.out.println("Bananas are Mali's favorite food.");
+                    virtualPet.feed(20);
+                } else if (food == 2) {
+                    System.out.println("Insects are Mali's 2nd favorite food.");
+                    virtualPet.feed(16);
+                } else if (food == 3) {
+                    System.out.println("Snails are Mali's 3rd favorite food.");
+                    virtualPet.feed(12);
+                } else {
+                    System.out.println("Flowers are Mali's worst food.");
+                    virtualPet.feed(8);
+                }
             } else if (toDo == 2) {
                 virtualPet.hydrate(10);
             } else if (toDo == 3) {
