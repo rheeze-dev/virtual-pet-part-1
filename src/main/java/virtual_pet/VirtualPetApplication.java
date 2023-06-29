@@ -26,22 +26,18 @@ public class VirtualPetApplication {
             System.out.println();
 
             if (toDo == 1) {
-                System.out.println("You fed Mali.");
                 virtualPet.feed(10);
             } else if (toDo == 2) {
-                System.out.println("You gave water to Mali.");
                 virtualPet.hydrate(10);
             } else if (toDo == 3) {
-                System.out.println("You put Mali to sleep.");
                 virtualPet.rest(10);
             } else if (toDo == 4) {
-                System.out.println("You played with Mali.");
                 virtualPet.play(10);
             } else if (toDo == 5) {
-                System.out.println("You made Mali feel better.");
+
                 virtualPet.heal(10);
             } else
-                System.out.println("Nothing.");
+                System.out.println("Did nothing.");
             virtualPet.tick();
         }
         if (virtualPet.getHunger() >= 100)

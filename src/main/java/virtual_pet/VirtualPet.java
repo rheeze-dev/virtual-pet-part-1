@@ -1,11 +1,14 @@
 package virtual_pet;
 
+import java.util.Random;
+
 public class VirtualPet {
     private int hunger = 50;
-    private int thirst = 50;
-    private int tiredness = 30;
-    private int boredom = 0;
-    private int sickness = 10;
+    private int thirst = 40;
+    private int tiredness = 20;
+    private int boredom = 10;
+    private int sickness = 0;
+    Random random = new Random();
 
     public int getHunger() {
         return this.hunger;
@@ -57,28 +60,72 @@ public class VirtualPet {
     }
 
     public void feed(int value) {
-        hunger -= value;
-        thirst += value;
+        if (value == 10) {
+            if (boredom >= random.nextInt(60))
+                System.out.println("Mali is bored and refused to eat.");
+            else {
+                System.out.println("You fed Mali.");
+                hunger -= value;
+                thirst += value;
+            }
+        } else {
+            System.out.println("Mali ate.");
+            hunger -= value;
+            thirst += value;
+        }
     }
 
     public void hydrate(int value) {
+        if (value == 10)
+            System.out.println("You gave water to Mali.");
+        else
+            System.out.println("Mali drank water.");
         thirst -= value;
     }
 
     public void rest(int value) {
-        tiredness -= value;
-        boredom += value;
+        if (value == 10) {
+            if (hunger >= random.nextInt(60))
+                System.out.println("Mali is hungry and refused to sleep.");
+            else {
+                System.out.println("You put Mali to sleep.");
+                tiredness -= value;
+                boredom += value;
+            }
+        } else {
+            System.out.println("Mali took a nap.");
+            tiredness -= value;
+            boredom += value;
+        }
     }
 
     public void play(int value) {
-        boredom -= value;
-        tiredness += value;
-        hunger += value;
-        thirst += value;
-        sickness += value;
+        if (value == 10) {
+            if (sickness >= random.nextInt(60))
+                System.out.println("Mali is sick and refused to play.");
+            else {
+                System.out.println("You played with Mali.");
+                boredom -= value;
+                tiredness += value;
+                hunger += value;
+                thirst += value;
+                sickness += value;
+            }
+        } else {
+            System.out.println("Mali played.");
+            boredom -= value;
+            tiredness += value;
+            hunger += value;
+            thirst += value;
+            sickness += value;
+        }
     }
 
     public void heal(int value) {
+        if (value == 10)
+            System.out.println("You made Mali feel better.");
+        else
+            System.out.println("Mali self medicated.");
         tiredness -= value;
         hunger -= value;
         thirst -= value;
@@ -104,21 +151,15 @@ public class VirtualPet {
                 index = i;
             }
         }
-        System.out.println(index);
         if (index == 0) {
-            System.out.println("Mali ate.");
             feed(3);
         } else if (index == 1) {
-            System.out.println("Mali drank water.");
             hydrate(3);
         } else if (index == 2) {
-            System.out.println("Mali took a nap.");
             rest(3);
         } else if (index == 3) {
-            System.out.println("Mali played.");
             play(3);
         } else {
-            System.out.println("Mali self medicated.");
             heal(3);
         }
     }
