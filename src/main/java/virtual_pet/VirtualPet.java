@@ -3,11 +3,11 @@ package virtual_pet;
 import java.util.Random;
 
 public class VirtualPet {
-    private int hunger = 50;
-    private int thirst = 40;
+    private int hunger = 30;
+    private int thirst = 30;
     private int tiredness = 20;
-    private int boredom = 10;
-    private int sickness = 0;
+    private int boredom = 20;
+    private int sickness = 10;
     Random random = new Random();
 
     public int getHunger() {
@@ -51,110 +51,116 @@ public class VirtualPet {
     }
 
     public void tick() {
-        hunger += 1;
-        thirst += 1;
-        tiredness += 1;
-        boredom += 1;
-        sickness += 1;
+        setHunger(getHunger() + 3);
+        setThirst(getThirst() + 3);
+        setTiredness(getTiredness() + 3);
+        setBoredom(getBoredom() + 3);
+        setSickness(getSickness() + 3);
         performPriorityNeed();
     }
 
     public void feed(int value) {
-        if (value == 3) {
-            if (hunger <= 100) {
-                System.out.println("Mali ate.");
-                hunger -= value;
-                thirst += value;
-            }
-        } else {
-            if (boredom >= random.nextInt(150))
+        if (value == 40 || value == 30 || value == 20) {
+            if (getBoredom() >= random.nextInt(120))
                 System.out.println("Mali is bored and refused to eat.");
             else {
                 System.out.println("You fed Mali.");
-                hunger -= value;
-                thirst += value;
+                setHunger(getHunger() - value < 0 ? 0 : getHunger() - value);
+                setThirst(getThirst() + 20);
+            }
+        } else {
+            if (getHunger() <= 100) {
+                System.out.println("Mali ate on his own.");
+                System.out.println();
+                setHunger(getHunger() - value < 0 ? 0 : getHunger() - value);
+                setThirst(getThirst() + value);
             }
         }
     }
 
     public void hydrate(int value) {
-        if (value == 10) {
+        if (value == 20) {
             System.out.println("You gave water to Mali.");
         } else {
-            if (thirst <= 100) {
-                System.out.println("Mali drank water.");
+            if (getThirst() <= 100) {
+                System.out.println("Mali drank water on his own.");
+                System.out.println();
             }
         }
-        thirst -= value;
+        setThirst(getThirst() - value < 0 ? 0 : getThirst() - value);
     }
 
     public void rest(int value) {
-        if (value == 10) {
-            if (hunger >= random.nextInt(150))
+        if (value == 20) {
+            if (getHunger() >= random.nextInt(120))
                 System.out.println("Mali is hungry and refused to sleep.");
             else {
                 System.out.println("You put Mali to sleep.");
-                tiredness -= value;
-                boredom += value;
+                setTiredness(getTiredness() - value < 0 ? 0 : getTiredness() - value);
+                setBoredom(getBoredom() + value);
             }
         } else {
-            if (tiredness <= 100) {
-                System.out.println("Mali took a nap.");
-                tiredness -= value;
-                boredom += value;
+            if (getTiredness() <= 100) {
+                System.out.println("Mali took a nap on his own.");
+                System.out.println();
+                setTiredness(getTiredness() - value < 0 ? 0 : getTiredness() - value);
+                setBoredom(getBoredom() + value);
             }
         }
     }
 
     public void play(int value) {
-        if (value == 10) {
-            if (sickness >= random.nextInt(150))
+        if (value == 20) {
+            if (getSickness() >= random.nextInt(120))
                 System.out.println("Mali is sick and refused to play.");
             else {
                 System.out.println("You played with Mali.");
-                boredom -= value;
-                tiredness += value;
-                hunger += value;
-                thirst += value;
-                sickness += value;
+                setBoredom(getBoredom() - value < 0 ? 0 : getBoredom() - value);
+                setTiredness(getTiredness() + value);
+                setHunger(getHunger() + value);
+                setThirst(getThirst() + value);
+                setSickness(getSickness() + value);
             }
         } else {
-            if (boredom <= 100) {
-                System.out.println("Mali played.");
-                boredom -= value;
-                tiredness += value;
-                hunger += value;
-                thirst += value;
-                sickness += value;
+            if (getBoredom() <= 100) {
+                System.out.println("Mali played on his own.");
+                System.out.println();
+                setBoredom(getBoredom() - value < 0 ? 0 : getBoredom() - value);
+                setTiredness(getTiredness() + value);
+                setHunger(getHunger() + value);
+                setThirst(getThirst() + value);
+                setSickness(getSickness() + value);
             }
         }
     }
 
     public void heal(int value) {
-        if (value == 10)
+        if (value == 20)
             System.out.println("You made Mali feel better.");
         else {
-            if (sickness <= 100) {
+            if (getSickness() <= 100) {
                 System.out.println("Mali self medicated.");
+                System.out.println();
             }
         }
-        tiredness -= value;
-        hunger -= value;
-        thirst -= value;
-        boredom -= value;
-        sickness -= value;
+        setTiredness(getTiredness() - value > 0 ? getTiredness() - value : 0);
+        setHunger(getHunger() - value > 0 ? getHunger() - value : 0);
+        setThirst(getThirst() - value > 0 ? getThirst() - value : 0);
+        setBoredom(getBoredom() - value > 0 ? getBoredom() - value : 0);
+        setSickness(getSickness() - value > 0 ? getSickness() - value : 0);
     }
 
     public void displayStats() {
-        System.out.println("Hunger: " + hunger + "%");
-        System.out.println("Thirst: " + thirst + "%");
-        System.out.println("Tiredness: " + tiredness + "%");
-        System.out.println("Boredom: " + boredom + "%");
-        System.out.println("Sickness: " + sickness + "%");
+        System.out.print("Hunger: " + getHunger() + "%     ");
+        System.out.print("Thirst: " + getThirst() + "%     ");
+        System.out.print("Tiredness: " + getTiredness() + "%     ");
+        System.out.print("Boredom: " + getBoredom() + "%     ");
+        System.out.print("Sickness: " + getSickness() + "%     ");
+        System.out.println();
     }
 
     public void performPriorityNeed() {
-        int[] arr = { hunger, thirst, tiredness, boredom, sickness };
+        int[] arr = { getHunger(), getThirst(), getTiredness(), getBoredom(), getSickness() };
         int max = 0;
         int index = 0;
         for (int i = 0; i < arr.length; i++) {
@@ -164,15 +170,15 @@ public class VirtualPet {
             }
         }
         if (index == 0) {
-            feed(3);
+            feed(5);
         } else if (index == 1) {
-            hydrate(3);
+            hydrate(5);
         } else if (index == 2) {
-            rest(3);
+            rest(5);
         } else if (index == 3) {
-            play(3);
+            play(5);
         } else {
-            heal(3);
+            heal(5);
         }
     }
 }
