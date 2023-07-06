@@ -60,8 +60,8 @@ public class VirtualPet {
     }
 
     public void feed(int value) {
-        if (value == 40 || value == 30 || value == 20) {
-            if (getBoredom() >= random.nextInt(120))
+        if (value == 30 || value == 20) {
+            if (getBoredom() >= random.nextInt(150))
                 System.out.println("Mali is bored and refused to eat.");
             else {
                 System.out.println("You fed Mali.");
@@ -92,7 +92,7 @@ public class VirtualPet {
 
     public void rest(int value) {
         if (value == 20) {
-            if (getHunger() >= random.nextInt(120))
+            if (getHunger() >= random.nextInt(150))
                 System.out.println("Mali is hungry and refused to sleep.");
             else {
                 System.out.println("You put Mali to sleep.");
@@ -111,7 +111,7 @@ public class VirtualPet {
 
     public void play(int value) {
         if (value == 20) {
-            if (getSickness() >= random.nextInt(120))
+            if (getSickness() >= random.nextInt(150))
                 System.out.println("Mali is sick and refused to play.");
             else {
                 System.out.println("You played with Mali.");
@@ -159,7 +159,7 @@ public class VirtualPet {
         System.out.println();
     }
 
-    public void performPriorityNeed() {
+    private void performPriorityNeed() {
         int[] arr = { getHunger(), getThirst(), getTiredness(), getBoredom(), getSickness() };
         int max = 0;
         int index = 0;
